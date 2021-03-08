@@ -43,7 +43,8 @@ ggplot(diff %>% filter(state=='California' & !is.na(Name)),
        aes(x=date, y=pct_change, color=Location)) +
   geom_line() + 
   scale_color_manual(values = c("#293352", "#FC4E07")) +
-  facet_wrap(~ Name, scales = 'free_y')
+  facet_wrap(~ Name, scales = 'free_y') +
+  ggtitle(label='Covid Case Load Daily Change in County vs. Facility')
 
 # day over day covid cases in counties vs. facilities
 ggsave("community_spread_CA.pdf", width = 14, height = 7)
@@ -77,7 +78,8 @@ ggplot(joined2 %>% filter(state=='California' & !is.na(Name)),
        aes(x=date, y=`Case Rate`, color=Location)) +
   geom_line() + 
   scale_color_manual(values = c("#293352", "#FC4E07")) +
-  facet_wrap(~ Name, scales = 'free_y')
+  facet_wrap(~ Name, scales = 'free_y') +
+  ggtitle(label='Covid Rate in County vs. Facility')
 
 # covid rates in counties vs. facilities
 ggsave("community_spread_rate_CA.pdf", width = 14, height = 7)
