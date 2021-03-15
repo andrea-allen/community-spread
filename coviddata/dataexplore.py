@@ -1,4 +1,3 @@
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import folium
@@ -17,7 +16,16 @@ def select_ice_facilities(data):
     print(ice_data.head(10))
     return ice_data
 
-def facility_density_map():
+### FOR VOLUNTEER: Use this method as a baseline, goal is:
+###  Have either a ref table or an additional column to the main dataset (or column in the static ICE data)
+###  that is, for each individual facility, the number of total facilities encompassed in the same county as that
+###  facility.
+def facilities_per_area():
+    # This method will achieve what we want for the chloropleth map by adding a column per county FIPS code of the
+    # number of total faciltiies, detention facilities, and jail/prison facilities per county. To make this
+    # dataset permanent, feel free to manipulate it however and put it into a more permanent data structure that can
+    # be persisted somewhere.
+
     ucla_data = pd.read_csv("http://104.131.72.50:3838/scraper_data/summary_data/scraped_time_series.csv")
     # Getting county data
     county_name_to_fips = pd.read_csv("https://raw.githubusercontent.com/kjhealy/fips-codes/master/state_and_county_fips_master.csv", header=0, delimiter=',')
@@ -52,6 +60,13 @@ def facility_density_map():
     combined_df['count_ice'] = combined_df.astype(int)
     combined_df['count_total'] = combined_df['count_other'] + combined_df['count_ice']
 
+    return combined_df
+
+
+### Using the facilities_per_area result, can make a chloropleth map of facility count per county to get some
+###  visual cues to guide our intuition when looking at community spread.
+def facility_density_map():
+    combined_df = facilities_per_area()
     # Create map object (second column denotes which column to use for the values)
     m = folium.Map(location=[41, -97], zoom_start=5)
     us_counties = 'https://gist.githubusercontent.com/wrobstory/5586482/raw/6031540596a4ff6cbfee13a5fc894588422fd3e6/us-counties.json'
