@@ -18,10 +18,11 @@ def example_model(N=1000, show_recovered=False, show_susceptible=False):
     staff_pop = 60
     detention_pop = 781
 
-    N = detention_pop + county_pop + staff_pop + 10 # 1 and 10 for initial infections, might want to change later
+    N = detention_pop + county_pop + staff_pop + 500 # 1 and 10 for initial infections, might want to change later
+    # according to the adelanto data, 4800 cumulative infections by 9/1 (I think) so use however many of those are active to start?
 
     y_init = np.array([detention_pop/N, 0/N, 0, 0, #detention facility, 1330 ADP but 781 were there in september
-                       county_pop/N, 10/N, 0, 0, #community/county
+                       county_pop/N, 500/N, 0, 0, #community/county
                        (staff_pop/2)/N, 1/N, 0, 0, # staff in community, split up 60 staff on/off shift
                        (staff_pop/2)/N, 0/N, 0, 0]) # staff in facility
 
@@ -31,7 +32,7 @@ def example_model(N=1000, show_recovered=False, show_susceptible=False):
     solution_ts = model.solve_model()
     print(f'Beta community/detention Params: {model_params.beta_community}, {model_params.beta_detention}')
     t_lim_max = len(solution_ts[0])
-    t_lim_max = max(np.where(solution_ts[0]<200)[0])
+    t_lim_max = max(np.where(solution_ts[0]<80)[0])
     plot_ts(solution_ts, t_lim_max, N, county_pop, detention_pop, staff_pop,
             combine_staff=True, show_susceptible=show_susceptible,
             show_recovered=show_recovered, community_separate_plot=True)
