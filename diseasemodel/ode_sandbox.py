@@ -7,71 +7,18 @@ import networkx as nx
 import epintervene.simobjects as epi
 import time
 import diseasemodel.model as model
-from coviddata import dataexplore
+from coviddata import datatools
 # TODO next: Inferring the right transmission probabilities for the simulation from the rate parameters
 
-t_res = []
-time_series = []
-beta = 0.625  # An infected person infects a person every 2 days (half a person per day)
-sigma = 0.5
-gamma = 1 / 10  # Recover period is 5 days
-gamma_ei = 1 / 6.7  # latent period is 5 days, say
-N=100
-def playing_around():
-    # Toy SEIR model to get things going
-    y_sir = np.array([99/100, 1/100, 0])
-    y_seir = np.array([98/100, 1/100, 0/100, 0])
-    t=0
-    # my_solver = scipy.integrate.RK45(my_odes_sir, t0=t, y0=y_sir, t_bound=100)
-    # for i in range(12):
-    #     my_solver.step()
-    # plt.show()
-
-    solution = scipy.integrate.solve_ivp(my_odes_seir, t_span=[0, 100000], y0=y_seir)
-    # t_res = solution.t
-    time_series.append(solution.t)
-    time_series.append(solution.y[0])
-    time_series.append(solution.y[1])
-    time_series.append(solution.y[2])
-    time_series.append(solution.y[3]) # If Exposed
-
-    return solution
-
-def my_odes_sir(t, y):
-    # y form: [s(t), i(t), r(t)]
-    s_t = y[0]
-    i_t = y[1]
-    r_t = y[2]
-    ds_dt = - beta*(s_t*i_t)
-    di_dt = beta*(s_t*i_t) - gamma*i_t
-    dr_dt = gamma*i_t
-    print([s_t+ds_dt, i_t+di_dt, r_t+dr_dt])
-    new_y = np.array([ds_dt, di_dt, dr_dt])
-    return new_y
-
-def my_odes_seir(t, y):
-    # y form: [s(t), e(t), i(t), r(t)]
-    s_t = y[0]
-    e_t = y[1]
-    i_t = y[2]
-    r_t = y[3]
-    ds_dt = -sigma*beta*(s_t*e_t) - beta*(s_t*i_t)
-    de_dt = sigma*beta*(s_t*e_t) + beta*(s_t*i_t) - gamma_ei*e_t
-    di_dt = -gamma*i_t + gamma_ei*e_t
-    dr_dt = gamma*i_t
-    print(t)
-    # t_res.append(t)
-    # time_series.append([t, s_t, e_t, i_t, r_t])
-    print([s_t+ds_dt, e_t+de_dt, i_t+di_dt, r_t+dr_dt])
-    print(sum([s_t+ds_dt, e_t+de_dt, i_t+di_dt, r_t+dr_dt]))
-    # plt.scatter(t, s_t, color='blue')
-    # plt.scatter(t, e_t, color='orange')
-    # plt.scatter(t, i_t, color='red')
-    # plt.scatter(t, r_t, color='green')
-    new_y = np.array([ds_dt, de_dt, di_dt, dr_dt])
-    return new_y
-
+# Event-driven simulations from my Epintervene package, not necessary but useful to validate a functional model
 def sample_sim(A):
+    t_res = []
+    time_series = []
+    beta = 0.625  # An infected person infects a person every 2 days (half a person per day)
+    sigma = 0.5
+    gamma = 1 / 10  # Recover period is 5 days
+    gamma_ei = 1 / 6.7  # latent period is 5 days, say
+    N = 100
     little_b = -(gamma * beta) / (beta - 1)
     Beta = np.full((N, N), beta/N)
     np.fill_diagonal(Beta, 0)
@@ -83,7 +30,15 @@ def sample_sim(A):
     sir_sim.run_sim(wait_for_recovery=True)
     return sir_sim.tabulate_continuous_time(custom_range=True, custom_t_lim=45)
 
+# Another event-driven simulation for SEIR model
 def sample_sim_seir(A, adj_list):
+    t_res = []
+    time_series = []
+    beta = 0.625  # An infected person infects a person every 2 days (half a person per day)
+    sigma = 0.5
+    gamma = 1 / 10  # Recover period is 5 days
+    gamma_ei = 1 / 6.7  # latent period is 5 days, say
+    N = 100
     Beta = np.full((N, N), 1.0/N)
     # Beta = np.full((N, N), beta/N)
     np.fill_diagonal(Beta, 0)
@@ -103,6 +58,13 @@ def sample_sim_seir(A, adj_list):
     return seir_sim.tabulate_continuous_time(custom_range=True, custom_t_lim=45)
 
 def seir_sim_for_detention_staff_county(N=1000, A=None, adj_list=None):
+    t_res = []
+    time_series = []
+    beta = 0.625  # An infected person infects a person every 2 days (half a person per day)
+    sigma = 0.5
+    gamma = 1 / 10  # Recover period is 5 days
+    gamma_ei = 1 / 6.7  # latent period is 5 days, say
+    N = 100
 
     # Make the membership groups
     node_mems = []
@@ -135,6 +97,13 @@ def seir_sim_for_detention_staff_county(N=1000, A=None, adj_list=None):
     # return seir_sim.tabulate_continuous_time(custom_range=True, custom_t_lim=45)
 
 def plot_ensemble_with_memb_groups(num_sims=50, show=False):
+    t_res = []
+    time_series = []
+    beta = 0.625  # An infected person infects a person every 2 days (half a person per day)
+    sigma = 0.5
+    gamma = 1 / 10  # Recover period is 5 days
+    gamma_ei = 1 / 6.7  # latent period is 5 days, say
+    N = 100
     plt.figure(1)
     net = nx.erdos_renyi_graph(N, p=beta)
     # A = np.array(nx.adjacency_matrix(net).todense())
@@ -192,73 +161,15 @@ def plot_ensemble_with_memb_groups(num_sims=50, show=False):
     if show:
         plt.show()
 
-
-
-if __name__ == '__main__':
-    ### Example:
-    # Plot model for Adelanto facility, and san bernardino county
-    plt.figure('model')
-    model.example_model(show_recovered=True) # Something isn't quite right here in terms of the spreading rates, for large county/small subpopulation
-    plt.show()
-    # Plot covid cases from NYT for SB county and from scraped data for Adelanto, in September
-    # See if numbers match up, also with data from the article I found
-    ucla_data = dataexplore.select_ice_facilities(dataexplore.load_ucla_data())
-    adelanto = ucla_data[ucla_data['Name'].str.contains('ADELANTO')]
-    adelanto['Date'] = pd.to_datetime(adelanto['Date'])
-    covid_data = dataexplore.load_nyt_data()
-    san_bern = covid_data[covid_data['county'].str.contains('San Bernardino')]
-    san_bern['date'] = pd.to_datetime(san_bern['date'])
-
-    start_date = '2020-09-01'
-    end_date = '2020-09-30'
-    start_date = pd.to_datetime(start_date)
-    end_date = pd.to_datetime(end_date)
-    covid_data_mask = (san_bern['date'] > start_date) & (san_bern['date'] <= end_date)
-    san_bern = san_bern.loc[covid_data_mask]
-    covid_data_mask_2 = (adelanto['Date'] > start_date) & (adelanto['Date'] <= end_date)
-    adelanto = adelanto.loc[covid_data_mask_2]
-    adelanto.dropna()
-
-    plt.figure('adelanto')
-    plt.plot(adelanto['Date'], adelanto['Residents.Confirmed'], color='blue')
-    # plt.xlabel(adelanto['Date'], rotation=45)
-    plt.figure('county')
-    plt.plot(san_bern['date'], san_bern['cases'], color='orange')
-    plt.show()
-
-    ### End Example
-    ucla_data = dataexplore.select_ice_facilities(dataexplore.load_ucla_data())
-    plot_ensemble_with_memb_groups(num_sims=300)
-    model.solve_and_plot(N=100)
-
-    playing_around()
-    plt.plot(t_res)
-    plt.scatter(np.arange(len(t_res)),t_res)
-    plt.show()
-    t_res = np.array(t_res)
-    plt.plot(t_res[1:]-t_res[:len(t_res)-1])
-    plt.show()
-    time_series = np.array(time_series)
-    # time_series = time_series.T
-    plt.figure(0)
-    plt.plot(time_series[0][:15], time_series[1][:15], color='blue', label='Susceptible')
-    plt.plot(time_series[0][:15], time_series[2][:15], color='orange', label='Exposed')
-    plt.plot(time_series[0][:15], time_series[3][:15], color='red', label='Infected')
-    plt.plot(time_series[0][:15], time_series[4][:15], color='green', label='Recovered')
-    # plt.xticks(time_series[0], rotation=45, fontsize=10)
-    plt.legend(loc='upper left')
-    plt.ylim([0, 1])
-    plt.tight_layout()
-
-    # plt.show()
-
+def seir_sim_ensemble(N, beta):
     plt.figure(1)
     net = nx.erdos_renyi_graph(N, p=beta)
     A = np.array(nx.adjacency_matrix(net).todense())
     # A = np.full((N, N), 1)
     # np.fill_diagonal(A, 0)
     adj_list = epi.network.NetworkBuilder.create_adjacency_list(net)
-    time_partition, infection_time_series, recover_time_series, exposed_time_series = sample_sim_seir(A, adj_list=adj_list)
+    time_partition, infection_time_series, recover_time_series, exposed_time_series = sample_sim_seir(A,
+                                                                                                      adj_list=adj_list)
     # time_partition, infection_time_series, recover_time_series = sample_sim(A)
     ensemble_res = np.zeros((3, len(time_partition)))
 
@@ -274,7 +185,7 @@ if __name__ == '__main__':
         tim, inft, rec, exp_ts = sample_sim_seir(A, adj_list)
         # tim, inft, rec = sample_sim(A)
         # only count the epidemics that "take off"
-        if inft[20]!=1:
+        if inft[20] != 1:
             ensemble_res[0] += inft
             ensemble_res[1] += rec
             ensemble_res[2] += exp_ts
@@ -284,18 +195,38 @@ if __name__ == '__main__':
         # ensemble_res[2] += exp_ts
         # sims_counted += 1
         # ensemble_res[2] += exp_ts
-    ensemble_res[0] = ensemble_res[0]/sims_counted
-    ensemble_res[1] = ensemble_res[1]/sims_counted
-    ensemble_res[2] = ensemble_res[2]/sims_counted
+    ensemble_res[0] = ensemble_res[0] / sims_counted
+    ensemble_res[1] = ensemble_res[1] / sims_counted
+    ensemble_res[2] = ensemble_res[2] / sims_counted
     # plt.plot(time_partition, time_series[1], color='blue', label='Susceptible')
     # plt.plot(time_partition, exposed_time_series/N, color='orange', label='Exposed')
-    plt.plot(time_partition, ensemble_res[0]/N, color='red', label='Infected')
-    plt.plot(time_partition, ensemble_res[1]/N, color='green', label='Recovered')
-    plt.plot(time_partition, ensemble_res[2]/N, color='orange', label='Exposed')
+    plt.plot(time_partition, ensemble_res[0] / N, color='red', label='Infected')
+    plt.plot(time_partition, ensemble_res[1] / N, color='green', label='Recovered')
+    plt.plot(time_partition, ensemble_res[2] / N, color='orange', label='Exposed')
     # plt.ylim([0,1])
     plt.legend(loc='upper left')
     plt.tight_layout()
     plt.show()
+
+
+
+if __name__ == '__main__':
+    ### Example:
+    # Plot model for Adelanto facility, and san bernardino county
+    plt.figure('model')
+    model.example_model(show_recovered=True) # Something isn't quite right here in terms of the spreading rates, for large county/small subpopulation
+    plt.show()
+
+    ### End Example
+
+    ## Other examples of doing stuff / exploratory analysis / disease simulations:
+    # Disregard if irrelevent
+    ucla_data = datatools.select_ice_facilities(datatools.load_ucla_data())
+    plot_ensemble_with_memb_groups(num_sims=300, show=True)
+
+    # plt.show()
+
+
 
 
 # TODO by monday:
@@ -326,6 +257,18 @@ if __name__ == '__main__':
 # article also contains useful counts for the various cities and towns and communities in the desert area which could be extremely helpful for this
 # could use mobility data to get where the staff come to/from to correlate them to their "home" towns and get the case data from the Desert sun article
 # can someone maybe combine this data into a dataset?
-# 81 cases in september, 30 staff cases. see if this fits
+# 81 cases in september, 30 staff cases. This fit my ODE model roughly by inspecting visually.
+
+# What I did 3/24:
+# Set beta values and callibrated according to Lofgren paper, using population. Then fit model s.t. c_0 chosen such that
+# 80% of pop gets infected by the end of the epidemic.
+# Looked at 30-60 day spread and started with 250 community cases which is about how many makes sense by the cumulative case counts
+# the results make sense, and show ICE might be underrporting by about half. But, could use more local counties to show this.
+# Or exclude major cities far away.
+
+# Next idea could be: If fewer people were in custody (or there were transmission reductions), how would this change the outcomes?
+# Use local town data instead of SB county?
+
+# Next steps: Do this same callibration for each facility in CA and see what happens
 
 

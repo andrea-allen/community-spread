@@ -5,6 +5,7 @@ import numpy as np
 import networkx as nx
 
 def example_model(N=1000, show_recovered=False, show_susceptible=False):
+    # Should be able to set parameters with county (city) and ICE facility and staff population
     # Example for Adelanto facility in San Bernardino county
     beta = 0.625  # An infected person infects a person every 2 days (half a person per day) (this might be after social distancing so should increase)
     beta = 2.43 # can be greater than 1 for rate in ODE model, adult risk from Lofgren paper
@@ -72,9 +73,12 @@ def solve_and_plot(N=1000, show_recovered=False, show_susceptible=False):
     return solution_ts
 
 def plot_ts(time_series, t_lim=15, N=400, county_pop=200, detention_pop=150, staff_pop=50, combine_staff=False, show_susceptible=False, show_recovered=False, community_separate_plot=False):
+    # Also would be good to have a way to interpolate this into incidence data to match reports
     time_series = np.array(time_series)
     # time_series = time_series.T
     plt.figure('Detention Cases')
+    plt.xlabel('Days')
+    plt.ylabel('Percent of population')
     # Detention
     if show_susceptible:
         plt.plot(time_series[0][:t_lim], time_series[1][:t_lim]*N/detention_pop, color='blue', label='D - Susceptible')
@@ -84,6 +88,8 @@ def plot_ts(time_series, t_lim=15, N=400, county_pop=200, detention_pop=150, sta
         plt.plot(time_series[0][:t_lim], time_series[4][:t_lim]*N/detention_pop, color='green', label='D - Recovered')
 
     plt.figure('Staff cases')
+    plt.xlabel('Days')
+    plt.ylabel('Percent of population')
     if not combine_staff:
         # Community Staff
         if show_susceptible:
@@ -118,6 +124,8 @@ def plot_ts(time_series, t_lim=15, N=400, county_pop=200, detention_pop=150, sta
 
     if community_separate_plot:
         plt.figure('community')
+        plt.xlabel('Days')
+        plt.ylabel('Percent of population')
     # Community
     if show_susceptible:
         plt.plot(time_series[0][:t_lim], time_series[5][:t_lim]*N/county_pop, color='blue', label='C - Susceptible', ls=':')
