@@ -1,0 +1,858 @@
+{
+    "objectIdFieldName": "OBJECTID",
+    "uniqueIdField": {
+        "name": "OBJECTID",
+        "isSystemMaintained": true
+    },
+    "globalIdFieldName": "",
+    "geometryType": "esriGeometryPolygon",
+    "spatialReference": {
+        "wkid": 102100,
+        "latestWkid": 3857
+    },
+    "fields": [
+        {
+            "name": "OBJECTID",
+            "type": "esriFieldTypeOID",
+            "alias": "OBJECTID",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Zip_Code",
+            "type": "esriFieldTypeString",
+            "alias": "Zip Code",
+            "sqlType": "sqlTypeOther",
+            "length": 8000,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Zip_Population",
+            "type": "esriFieldTypeInteger",
+            "alias": "Zip Population",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Total_Cases",
+            "type": "esriFieldTypeInteger",
+            "alias": "Total Cases",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Cases_7_Days",
+            "type": "esriFieldTypeInteger",
+            "alias": "New Cases in 7 Days",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "episode7day",
+            "type": "esriFieldTypeDouble",
+            "alias": "Case Rate",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "PreviousCaseRate",
+            "type": "esriFieldTypeDouble",
+            "alias": "Previous Week Case Rate",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Update_Range",
+            "type": "esriFieldTypeString",
+            "alias": "Update Range",
+            "sqlType": "sqlTypeOther",
+            "length": 255,
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Testing_Positivity_Pct",
+            "type": "esriFieldTypeDouble",
+            "alias": "Testing Positivity Pct",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Total_Tests",
+            "type": "esriFieldTypeInteger",
+            "alias": "Total Tests",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "Positive_Tests",
+            "type": "esriFieldTypeInteger",
+            "alias": "Positive Tests",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        }
+    ],
+    "exceededTransferLimit": true,
+    "features": [
+        {
+            "attributes": {
+                "OBJECTID": 674,
+                "Zip_Code": "91901",
+                "Zip_Population": 17986,
+                "Total_Cases": 735,
+                "Cases_7_Days": 42,
+                "episode7day": 33.3592794395641,
+                "PreviousCaseRate": 65.9242903210434,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 11.5631691648822,
+                "Total_Tests": 467,
+                "Positive_Tests": 54
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 675,
+                "Zip_Code": "91902",
+                "Zip_Population": 17631,
+                "Total_Cases": 856,
+                "Cases_7_Days": 64,
+                "episode7day": 51.8567134187349,
+                "PreviousCaseRate": 49.4259299772317,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 13.5235732009926,
+                "Total_Tests": 806,
+                "Positive_Tests": 109
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 676,
+                "Zip_Code": "91905 & 91906 & 91962 & 91963 & 91980 & 91934",
+                "Zip_Population": 9648,
+                "Total_Cases": 570,
+                "Cases_7_Days": 45,
+                "episode7day": 66.6311300639659,
+                "PreviousCaseRate": 114.013266998342,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 20.8092485549133,
+                "Total_Tests": 173,
+                "Positive_Tests": 36
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 677,
+                "Zip_Code": "91910",
+                "Zip_Population": 83834,
+                "Total_Cases": 5827,
+                "Cases_7_Days": 484,
+                "episode7day": 82.4759132844158,
+                "PreviousCaseRate": 98.3235577791486,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 15.5517438536306,
+                "Total_Tests": 3498,
+                "Positive_Tests": 544
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 678,
+                "Zip_Code": "91911",
+                "Zip_Population": 84819,
+                "Total_Cases": 7348,
+                "Cases_7_Days": 606,
+                "episode7day": 102.06608020777,
+                "PreviousCaseRate": 120.087648825314,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 17.6958898562462,
+                "Total_Tests": 4939,
+                "Positive_Tests": 874
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 679,
+                "Zip_Code": "91913",
+                "Zip_Population": 51077,
+                "Total_Cases": 2862,
+                "Cases_7_Days": 289,
+                "episode7day": 80.8303429835626,
+                "PreviousCaseRate": 85.5850690414193,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 14.4154818325434,
+                "Total_Tests": 2532,
+                "Positive_Tests": 365
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 680,
+                "Zip_Code": "91915",
+                "Zip_Population": 31119,
+                "Total_Cases": 1795,
+                "Cases_7_Days": 130,
+                "episode7day": 59.6787447264648,
+                "PreviousCaseRate": 68.8600900689978,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 12.5303152789006,
+                "Total_Tests": 1237,
+                "Positive_Tests": 155
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 681,
+                "Zip_Code": "91916 & 91931 & 91948 & 92036 & 92259",
+                "Zip_Population": 7572,
+                "Total_Cases": 114,
+                "Cases_7_Days": 6,
+                "episode7day": 11.3199003848766,
+                "PreviousCaseRate": 15.0932005131688,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 5.33333333333333,
+                "Total_Tests": 75,
+                "Positive_Tests": 4
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 682,
+                "Zip_Code": "91917 & 91935",
+                "Zip_Population": 9418,
+                "Total_Cases": 535,
+                "Cases_7_Days": 39,
+                "episode7day": 59.157236901981,
+                "PreviousCaseRate": 86.4605770105876,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 15.234375,
+                "Total_Tests": 256,
+                "Positive_Tests": 39
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 683,
+                "Zip_Code": "91932",
+                "Zip_Population": 27448,
+                "Total_Cases": 1718,
+                "Cases_7_Days": 140,
+                "episode7day": 72.8650539201399,
+                "PreviousCaseRate": 80.672023983012,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 19.37207748831,
+                "Total_Tests": 1497,
+                "Positive_Tests": 290
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 684,
+                "Zip_Code": "91941",
+                "Zip_Population": 34225,
+                "Total_Cases": 1308,
+                "Cases_7_Days": 96,
+                "episode7day": 40.0709589898779,
+                "PreviousCaseRate": 60.1064384848169,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 8.70279146141215,
+                "Total_Tests": 1218,
+                "Positive_Tests": 106
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 685,
+                "Zip_Code": "91942",
+                "Zip_Population": 40026,
+                "Total_Cases": 1480,
+                "Cases_7_Days": 145,
+                "episode7day": 51.7520754366804,
+                "PreviousCaseRate": 57.1057384128888,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 11.8473895582329,
+                "Total_Tests": 1494,
+                "Positive_Tests": 177
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 686,
+                "Zip_Code": "91945",
+                "Zip_Population": 27208,
+                "Total_Cases": 1648,
+                "Cases_7_Days": 158,
+                "episode7day": 82.958793632125,
+                "PreviousCaseRate": 95.0350737178141,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 16.0578386605784,
+                "Total_Tests": 2628,
+                "Positive_Tests": 422
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 687,
+                "Zip_Code": "91950",
+                "Zip_Population": 58536,
+                "Total_Cases": 4835,
+                "Cases_7_Days": 455,
+                "episode7day": 111.042777094438,
+                "PreviousCaseRate": 117.876178761788,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 20.1315308732189,
+                "Total_Tests": 2737,
+                "Positive_Tests": 551
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 688,
+                "Zip_Code": "91977",
+                "Zip_Population": 60994,
+                "Total_Cases": 4094,
+                "Cases_7_Days": 350,
+                "episode7day": 81.975276256681,
+                "PreviousCaseRate": 90.8754491074064,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 19.2390834414181,
+                "Total_Tests": 2313,
+                "Positive_Tests": 445
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 689,
+                "Zip_Code": "92003 & 92084",
+                "Zip_Population": 53644,
+                "Total_Cases": 2916,
+                "Cases_7_Days": 323,
+                "episode7day": 86.0168092290977,
+                "PreviousCaseRate": 86.8157269618756,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 16.7191011235955,
+                "Total_Tests": 2225,
+                "Positive_Tests": 372
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 690,
+                "Zip_Code": "92004 & 92060 & 92066 & 92086 & 92536",
+                "Zip_Population": 8032,
+                "Total_Cases": 143,
+                "Cases_7_Days": 7,
+                "episode7day": 12.4501992031873,
+                "PreviousCaseRate": 21.3431986340353,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 7.01754385964912,
+                "Total_Tests": 171,
+                "Positive_Tests": 12
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 691,
+                "Zip_Code": "92007",
+                "Zip_Population": 11483,
+                "Total_Cases": 214,
+                "Cases_7_Days": 17,
+                "episode7day": 21.1492765703338,
+                "PreviousCaseRate": 21.1492765703338,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 5.45454545454545,
+                "Total_Tests": 385,
+                "Positive_Tests": 21
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 692,
+                "Zip_Code": "92008",
+                "Zip_Population": 29653,
+                "Total_Cases": 779,
+                "Cases_7_Days": 76,
+                "episode7day": 36.6139778678139,
+                "PreviousCaseRate": 37.0957407344957,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 9.53488372093023,
+                "Total_Tests": 860,
+                "Positive_Tests": 82
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 693,
+                "Zip_Code": "92009",
+                "Zip_Population": 43336,
+                "Total_Cases": 1006,
+                "Cases_7_Days": 100,
+                "episode7day": 32.9650043513806,
+                "PreviousCaseRate": 44.5027558743638,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 7.8740157480315,
+                "Total_Tests": 1270,
+                "Positive_Tests": 100
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 694,
+                "Zip_Code": "92010",
+                "Zip_Population": 16681,
+                "Total_Cases": 444,
+                "Cases_7_Days": 43,
+                "episode7day": 36.8254729504055,
+                "PreviousCaseRate": 41.9639110365086,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 8.67052023121387,
+                "Total_Tests": 519,
+                "Positive_Tests": 45
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 695,
+                "Zip_Code": "92011",
+                "Zip_Population": 23962,
+                "Total_Cases": 531,
+                "Cases_7_Days": 63,
+                "episode7day": 37.5594691595025,
+                "PreviousCaseRate": 37.5594691595025,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 10.4454685099846,
+                "Total_Tests": 651,
+                "Positive_Tests": 68
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 696,
+                "Zip_Code": "92014",
+                "Zip_Population": 14138,
+                "Total_Cases": 271,
+                "Cases_7_Days": 21,
+                "episode7day": 21.2194086858113,
+                "PreviousCaseRate": 27.2820968817574,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 3.9440203562341,
+                "Total_Tests": 786,
+                "Positive_Tests": 31
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 697,
+                "Zip_Code": "92019",
+                "Zip_Population": 45094,
+                "Total_Cases": 2674,
+                "Cases_7_Days": 228,
+                "episode7day": 72.2300717865538,
+                "PreviousCaseRate": 88.7035969308556,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 19.2495921696574,
+                "Total_Tests": 1839,
+                "Positive_Tests": 354
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 698,
+                "Zip_Code": "92020",
+                "Zip_Population": 61895,
+                "Total_Cases": 4269,
+                "Cases_7_Days": 319,
+                "episode7day": 73.6269950261387,
+                "PreviousCaseRate": 92.3222508164749,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 13.8333961552959,
+                "Total_Tests": 2653,
+                "Positive_Tests": 367
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 699,
+                "Zip_Code": "92021",
+                "Zip_Population": 68655,
+                "Total_Cases": 4253,
+                "Cases_7_Days": 365,
+                "episode7day": 75.9491036965365,
+                "PreviousCaseRate": 87.3934891850557,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 14.1268803139307,
+                "Total_Tests": 3058,
+                "Positive_Tests": 432
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 700,
+                "Zip_Code": "92024",
+                "Zip_Population": 56389,
+                "Total_Cases": 1343,
+                "Cases_7_Days": 125,
+                "episode7day": 31.6677771500521,
+                "PreviousCaseRate": 31.1610927156512,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 6.87022900763359,
+                "Total_Tests": 2096,
+                "Positive_Tests": 144
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 701,
+                "Zip_Code": "92025",
+                "Zip_Population": 51820,
+                "Total_Cases": 3009,
+                "Cases_7_Days": 295,
+                "episode7day": 81.3254672768374,
+                "PreviousCaseRate": 108.066383635662,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 18.5229303156641,
+                "Total_Tests": 1679,
+                "Positive_Tests": 311
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 702,
+                "Zip_Code": "92026",
+                "Zip_Population": 56272,
+                "Total_Cases": 2809,
+                "Cases_7_Days": 301,
+                "episode7day": 76.414557861814,
+                "PreviousCaseRate": 75.3990820098298,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 18.3510638297872,
+                "Total_Tests": 1880,
+                "Positive_Tests": 345
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 703,
+                "Zip_Code": "92027",
+                "Zip_Population": 54203,
+                "Total_Cases": 3447,
+                "Cases_7_Days": 380,
+                "episode7day": 100.15260093669,
+                "PreviousCaseRate": 98.0441251274969,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 20.9059233449477,
+                "Total_Tests": 2009,
+                "Positive_Tests": 420
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 704,
+                "Zip_Code": "92028",
+                "Zip_Population": 49008,
+                "Total_Cases": 2120,
+                "Cases_7_Days": 247,
+                "episode7day": 71.9999067207686,
+                "PreviousCaseRate": 79.870341868383,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 15.5506364139458,
+                "Total_Tests": 1807,
+                "Positive_Tests": 281
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 705,
+                "Zip_Code": "92029",
+                "Zip_Population": 21201,
+                "Total_Cases": 772,
+                "Cases_7_Days": 83,
+                "episode7day": 55.9272810581711,
+                "PreviousCaseRate": 53.2319904047653,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 12.5170068027211,
+                "Total_Tests": 735,
+                "Positive_Tests": 92
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 706,
+                "Zip_Code": "92040",
+                "Zip_Population": 44105,
+                "Total_Cases": 1626,
+                "Cases_7_Days": 157,
+                "episode7day": 50.8526730043565,
+                "PreviousCaseRate": 56.0351110175393,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 13.3001422475107,
+                "Total_Tests": 1406,
+                "Positive_Tests": 187
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 707,
+                "Zip_Code": "92054",
+                "Zip_Population": 42441,
+                "Total_Cases": 1503,
+                "Cases_7_Days": 150,
+                "episode7day": 50.4902604287633,
+                "PreviousCaseRate": 58.5687020973654,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 17.1,
+                "Total_Tests": 1000,
+                "Positive_Tests": 171
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 708,
+                "Zip_Code": "92055 & 92672",
+                "Zip_Population": 41284,
+                "Total_Cases": 315,
+                "Cases_7_Days": 17,
+                "episode7day": 5.88259720126787,
+                "PreviousCaseRate": 3.46035129486345,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 0,
+                "Total_Tests": 2,
+                "Positive_Tests": 0
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 709,
+                "Zip_Code": "92056",
+                "Zip_Population": 55369,
+                "Total_Cases": 2140,
+                "Cases_7_Days": 208,
+                "episode7day": 53.6659244600511,
+                "PreviousCaseRate": 58.3100909998633,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 10.6673673147662,
+                "Total_Tests": 1903,
+                "Positive_Tests": 203
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 710,
+                "Zip_Code": "92057",
+                "Zip_Population": 55751,
+                "Total_Cases": 2356,
+                "Cases_7_Days": 220,
+                "episode7day": 56.3731079775635,
+                "PreviousCaseRate": 58.4230391767476,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 16.7684996605567,
+                "Total_Tests": 1473,
+                "Positive_Tests": 247
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 711,
+                "Zip_Code": "92058",
+                "Zip_Population": 24170,
+                "Total_Cases": 1269,
+                "Cases_7_Days": 122,
+                "episode7day": 72.108280631243,
+                "PreviousCaseRate": 66.7888173059874,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 15.9440559440559,
+                "Total_Tests": 715,
+                "Positive_Tests": 114
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 712,
+                "Zip_Code": "92059 & 92061 & 92082",
+                "Zip_Population": 21966,
+                "Total_Cases": 1033,
+                "Cases_7_Days": 105,
+                "episode7day": 68.2873531821907,
+                "PreviousCaseRate": 79.9937565848519,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 13.9678615574784,
+                "Total_Tests": 809,
+                "Positive_Tests": 113
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 713,
+                "Zip_Code": "92064",
+                "Zip_Population": 50438,
+                "Total_Cases": 1240,
+                "Cases_7_Days": 115,
+                "episode7day": 32.5718137685305,
+                "PreviousCaseRate": 34.2712127477582,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 8.85072655217966,
+                "Total_Tests": 1514,
+                "Positive_Tests": 134
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 714,
+                "Zip_Code": "92065 & 92070",
+                "Zip_Population": 37196,
+                "Total_Cases": 1482,
+                "Cases_7_Days": 137,
+                "episode7day": 52.6170248721061,
+                "PreviousCaseRate": 54.5373542470004,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 13.3233532934132,
+                "Total_Tests": 1336,
+                "Positive_Tests": 178
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 715,
+                "Zip_Code": "92067 & 92091",
+                "Zip_Population": 11917,
+                "Total_Cases": 230,
+                "Cases_7_Days": 15,
+                "episode7day": 17.9815150025773,
+                "PreviousCaseRate": 20.3790503362543,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 4.21052631578947,
+                "Total_Tests": 95,
+                "Positive_Tests": 4
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 716,
+                "Zip_Code": "92069",
+                "Zip_Population": 51171,
+                "Total_Cases": 2650,
+                "Cases_7_Days": 333,
+                "episode7day": 92.965602726991,
+                "PreviousCaseRate": 97.4324184736332,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 20.9786276715411,
+                "Total_Tests": 1778,
+                "Positive_Tests": 373
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 717,
+                "Zip_Code": "92071",
+                "Zip_Population": 58213,
+                "Total_Cases": 2083,
+                "Cases_7_Days": 227,
+                "episode7day": 55.7067518055614,
+                "PreviousCaseRate": 46.6267966654478,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 10.3022562792678,
+                "Total_Tests": 2349,
+                "Positive_Tests": 242
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 718,
+                "Zip_Code": "92075",
+                "Zip_Population": 12977,
+                "Total_Cases": 230,
+                "Cases_7_Days": 20,
+                "episode7day": 22.0169750877927,
+                "PreviousCaseRate": 28.6220676141305,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 4.86815415821501,
+                "Total_Tests": 493,
+                "Positive_Tests": 24
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 719,
+                "Zip_Code": "92078 & 92096",
+                "Zip_Population": 51561,
+                "Total_Cases": 1858,
+                "Cases_7_Days": 209,
+                "episode7day": 57.9064464559315,
+                "PreviousCaseRate": 54.8587387477246,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 14.6771037181996,
+                "Total_Tests": 4599,
+                "Positive_Tests": 675
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 720,
+                "Zip_Code": "92081",
+                "Zip_Population": 32891,
+                "Total_Cases": 997,
+                "Cases_7_Days": 100,
+                "episode7day": 43.4335054747934,
+                "PreviousCaseRate": 52.5545416245,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 12.6898047722343,
+                "Total_Tests": 922,
+                "Positive_Tests": 117
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 721,
+                "Zip_Code": "92083",
+                "Zip_Population": 39155,
+                "Total_Cases": 2671,
+                "Cases_7_Days": 225,
+                "episode7day": 82.0913220351351,
+                "PreviousCaseRate": 103.982341244504,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 19.8907103825137,
+                "Total_Tests": 3660,
+                "Positive_Tests": 728
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 722,
+                "Zip_Code": "92101 & 92134",
+                "Zip_Population": 61011,
+                "Total_Cases": 2109,
+                "Cases_7_Days": 209,
+                "episode7day": 48.937311070369,
+                "PreviousCaseRate": 46.8299627467646,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 12.8797083839611,
+                "Total_Tests": 2469,
+                "Positive_Tests": 318
+            }
+        },
+        {
+            "attributes": {
+                "OBJECTID": 723,
+                "Zip_Code": "92102",
+                "Zip_Population": 42330,
+                "Total_Cases": 2794,
+                "Cases_7_Days": 220,
+                "episode7day": 74.246566096318,
+                "PreviousCaseRate": 94.1581451857852,
+                "Update_Range": "12/20/2020-12/26/2020",
+                "Testing_Positivity_Pct": 14.4444444444444,
+                "Total_Tests": 1800,
+                "Positive_Tests": 260
+            }
+        }
+    ]
+}
