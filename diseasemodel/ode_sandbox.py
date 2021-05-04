@@ -224,6 +224,7 @@ if __name__ == '__main__':
     ucla_data = datatools.select_ice_facilities(datatools.load_ucla_data())
     plot_ensemble_with_memb_groups(num_sims=300, show=True)
 
+
     # plt.show()
 
 

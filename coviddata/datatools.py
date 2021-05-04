@@ -6,6 +6,7 @@ from pandas.io.json import json_normalize
 import json
 import datetime
 from coviddata import get_sandiego_api_covid
+from diseasemodel import model
 
 
 def load_nyt_data():
@@ -49,7 +50,7 @@ def moving_avg(covid_data, days=7):
     plt.show()
 
 
-def county_facility_x_correlation(facility, county, start_date, end_date, facility_name):
+def county_facility_x_correlation(facility, county, start_date, end_date, facility_name, county_pop):
     county_name = county.head(1)['county'].values[0]
     start_date = pd.to_datetime(start_date)
     end_date = pd.to_datetime(end_date)
@@ -71,40 +72,59 @@ def county_facility_x_correlation(facility, county, start_date, end_date, facili
     plt.ylabel('Cumulative case count')
     plt.show()
 
-    plt.plot(facility['Date'], facility['Residents.Confirmed'].rolling(7).obj, color='blue')
-    plt.xticks(rotation=45)
-    plt.xlabel('Days')
-    plt.ylabel('Cumulative case count')
-    plt.title(f'7 Day Rolling Avg - {facility_name}')
-    plt.show()
+    # plt.figure('facility')
+    # facility['Rolling_diff'] = moving_average(np.array(facility['Residents.Confirmed'].diff(1))[1:])
+    # # plt.plot(facility['Date'], facility['Residents.Confirmed'].diff(1), color='blue')
+    # plt.plot(facility['Date'], facility['Rolling_diff'], color='blue')
+    # plt.xticks(rotation=45)
+    # plt.xlabel('Days')
+    # plt.ylabel('Cumulative case count')
+    # plt.title(f'7 Day Rolling Avg - {facility_name}')
+    # plt.show()
+    #
+    # plt.figure('county')
+    # county['Rolling_diff'] = moving_average(np.array(county['cases'].diff(1))[1:])
+    # # plt.plot(county['date'], county['cases'].diff(1), color='orange')
+    # plt.plot(county['date'], county['Rolling_diff'], color='orange')
+    # plt.xticks(rotation=45)
+    # plt.xlabel('Days')
+    # plt.ylabel('Cumulative case count')
+    # plt.title(f'7 Day Rolling Avg - County {county_name}')
+    # plt.show()
 
-    plt.plot(county['date'], county['cases'].rolling(7).obj, color='orange')
-    plt.xticks(rotation=45)
-    plt.xlabel('Days')
-    plt.ylabel('Cumulative case count')
-    plt.title(f'7 Day Rolling Avg - County {county_name}')
-    plt.show()
-
-    joined_df = facility.join(county.set_index('date'), on='Date', how='left')
+    joined_df = county.join(facility.set_index('Date'), on='date', how='left')
 
     ## TODO before doing the correlation, need to join on the date column to get the same date values for NYT and ICE data
     ## basically need to build up some more of my data tools first
     # Compute rolling window synchrony
-    d1 = joined_df['Residents.Confirmed'].rolling(7).obj
-    d2 = joined_df['cases'].rolling(7).obj
-    rs = np.array([crosscorr(d1, d2, lag) for lag in range(-len(joined_df), len(joined_df))])
+    d1 = joined_df['Residents.Active'].fillna(method='ffill').dropna()[1:] / 338 * 10000
+    d2 = joined_df['cases'].fillna(method='ffill').dropna()[1:] / 30000 * 10000
+    rs = np.array([crosscorr(d1, d2, lag) for lag in range(-min(len(joined_df),21), min(len(joined_df),21))]) #21 days
     rs_not_nan = rs[~ np.isnan(rs)]
-    offset = np.floor(len(rs) / 2) - np.argmax(rs_not_nan)
+    offset = np.floor(len(rs) / 2) - np.nanargmax(rs)
     f, ax = plt.subplots(figsize=(14, 5))
     ax.plot(rs)
     ax.axvline(np.ceil(len(rs) / 2), color='k', linestyle='--', label='Center')
-    ax.axvline(np.argmax(rs_not_nan), color='r', linestyle='--', label='Peak synchrony')
+    ax.axvline(np.nanargmax(rs), color='r', linestyle='--', label='Peak synchrony')
     ax.set(title=f'{facility_name} cross correlation with {county_name} county \n Date Offset = {offset} frames',
            xlabel='Offset',
            ylabel='Pearson r')
     # ax.set_xticks(np.arange(len(joined_df)))
     # ax.set_xticklabels(joined_df['Date'])
     plt.legend()
+
+    plt.figure('compare case rates')
+    avg_difference_in_rates = np.average(joined_df['Residents.Active'].fillna(method='ffill')[1:] / facility.head(1)['Population.Feb20'].values[0] * 10000)/np.average(joined_df['cases'].diff(10).fillna(method='bfill') / county_pop * 10000)
+    plt.ylabel('Active case rate per 10,000 people')
+    plt.title(f'Active case rates for {facility_name} and surrounding county\n'
+              f'Avg rate of detention facility is {np.round(avg_difference_in_rates,1)}X higher than county rate')
+    plt.plot(joined_df['date'], joined_df['Residents.Active'].fillna(method='ffill') / facility.head(1)['Population.Feb20'].values[0] * 10000, label=f'{facility_name} Detainee Rate')
+    plt.plot(joined_df['date'], joined_df['cases'].diff(10).fillna(method='bfill') / county_pop * 10000, label='County rate')
+    plt.xticks(rotation=45)
+    plt.ylim(1, 100000)
+    plt.semilogy()
+    plt.yticks([10, 100, 1000, 10000], labels=['10', '100', '1000', '10000'])
+    plt.legend(loc='upper left')
     plt.show()
 
 
@@ -386,11 +406,153 @@ def cross_correlation_plot(region, facility):
     plt.legend()
     plt.show()
 
+def moving_average(a, n=7):
+    ret = np.cumsum(a, dtype=float)
+    ret[n:] = ret[n:] - ret[:-n]
+    return ret[n - 1:] / n
+
+
+def new_outbreak_correlation():
+    # TODO w Minali:
+    # Can we incorporate into here the code Neal wrote for computing active cases, and then do cross correlation with that
+    # Residents.Active column is there now! So can use that for correlation
+    # Argument could be, facilities arent exempt from county increasing rates, all the more push for vaccination efforts
+    #
+    facility_names = ['ICE ADAMS COUNTY DETENTION CENTER', 'ICE KARNES COUNTY RESIDENTIAL CENTER', 'ICE SOUTH TEXAS DETENTION COMPLEX',
+                      'ICE SOUTH TEXAS FAMILY RESIDENTIAL CENTER', 'ICE WINN CORRECTIONAL CENTER']
+    county_dict = {'ICE ADAMS COUNTY DETENTION CENTER': 'Adams', 'ICE KARNES COUNTY RESIDENTIAL CENTER': 'Karnes', 'ICE SOUTH TEXAS DETENTION COMPLEX':'Frio',
+                   'ICE SOUTH TEXAS FAMILY RESIDENTIAL CENTER':'Frio', 'ICE WINN CORRECTIONAL CENTER':'Winn'}
+    state_dict = {'ICE ADAMS COUNTY DETENTION CENTER' : 'Mississippi', 'ICE KARNES COUNTY RESIDENTIAL CENTER':'Texas',
+                  'ICE SOUTH TEXAS DETENTION COMPLEX':'Texas', 'ICE SOUTH TEXAS FAMILY RESIDENTIAL CENTER':'Texas',
+                  'ICE WINN CORRECTIONAL CENTER':'Louisiana'}
+    pop_dict = {'ICE ADAMS COUNTY DETENTION CENTER': 30693, 'ICE KARNES COUNTY RESIDENTIAL CENTER': 15545, 'ICE SOUTH TEXAS DETENTION COMPLEX':20306,
+                   'ICE SOUTH TEXAS FAMILY RESIDENTIAL CENTER':20326, 'ICE WINN CORRECTIONAL CENTER': 14313}
+    ice_facilities = select_ice_facilities(load_ucla_data())
+    covid_df = load_nyt_data()
+    for facility in facility_names:
+        df = ice_facilities[ice_facilities['Name'].str.contains(f'{facility}', na=False)]
+        county = covid_df[covid_df['county'] == county_dict[facility]]
+        county = county[county['state'] == state_dict[facility]]
+        county_pop = pop_dict[facility]
+        county_facility_x_correlation(df, county, datetime.datetime.strptime('02-01-2021', '%m-%d-%Y'),
+                                      datetime.datetime.strptime('04-12-2021', '%m-%d-%Y'), facility, county_pop)
+
+def model_with_data():
+    base_color = '#555526'
+    scatter_color = '#92926C'
+    more_colors = [ "#D7790F", "#82CAA4", "#4C6788", "#84816F",
+                "#71A9C9", "#AE91A8"]
+    ## Combination disease model with data from datatools
+    # Can observe c_jail from real data, comparing the per-10000 person rate. Then show a model which makes for a compelling argument
+    # that even if spread is dying down in the community, it can still have an affect on within-detention case rates.
+    # example_model(county_pop=30693, c_jail=160, staff_pop=50, detention_pop=338, init_community_infections=2200, show_recovered=True)
+    # ICE SOUTH TEXAS DETENTION COMPLEX: params inferred from data, avg c_jail, should get to 2700 infections after 60 days
+    # initial detention infections is 300, should get to 400 to match reports
+    plt.figure('model')
+    # model_result = model.example_model(county_pop=20306, c_jail=17, staff_pop=100, detention_pop=650, init_community_infections=2403, init_detention_infections=300, show_recovered=True)
+    # model.example_model(county_pop=20306, staff_pop=200, detention_pop=650, show_recovered=False, show_susceptible=False,
+    #               beta=2.43,sigma=0.5, gamma=1 / 10, gamma_ei=1 / 6.7, staff_work_shift=3, c_jail=3, c_0=500,
+    #               init_community_infections=244, init_detention_infections=30,arrest_rate=.0001, alos=.033,
+    #               normalize=True, same_plot=True, num_days=80)
+    # the above params end up callibrating to: Beta community/detention Params: 0.059250950941187944, 4.288235294117648
+
+    facility_names = ['ICE ADAMS COUNTY DETENTION CENTER', 'ICE KARNES COUNTY RESIDENTIAL CENTER', 'ICE SOUTH TEXAS DETENTION COMPLEX',
+                      'ICE SOUTH TEXAS FAMILY RESIDENTIAL CENTER', 'ICE WINN CORRECTIONAL CENTER']
+    county_dict = {'ICE ADAMS COUNTY DETENTION CENTER': 'Adams', 'ICE KARNES COUNTY RESIDENTIAL CENTER': 'Karnes', 'ICE SOUTH TEXAS DETENTION COMPLEX':'Frio',
+                   'ICE SOUTH TEXAS FAMILY RESIDENTIAL CENTER':'Frio', 'ICE WINN CORRECTIONAL CENTER':'Winn'}
+    state_dict = {'ICE ADAMS COUNTY DETENTION CENTER' : 'Mississippi', 'ICE KARNES COUNTY RESIDENTIAL CENTER':'Texas',
+                  'ICE SOUTH TEXAS DETENTION COMPLEX':'Texas', 'ICE SOUTH TEXAS FAMILY RESIDENTIAL CENTER':'Texas',
+                  'ICE WINN CORRECTIONAL CENTER':'Louisiana'}
+    pop_dict = {'ICE ADAMS COUNTY DETENTION CENTER': 30693, 'ICE KARNES COUNTY RESIDENTIAL CENTER': 15545, 'ICE SOUTH TEXAS DETENTION COMPLEX':20306,
+                   'ICE SOUTH TEXAS FAMILY RESIDENTIAL CENTER':20326, 'ICE WINN CORRECTIONAL CENTER': 14313}
+    # Parameter set dictionary for each facility we are looking at, so we can plug right into the model
+    param_dict = {'ICE ADAMS COUNTY DETENTION CENTER': model.ModelParams(county_pop=30693, staff_pop=50, #a guess
+                                                                        detention_pop=338, beta=2.43,sigma=0.5,
+                                                                        gamma=1 / 10, gamma_ei=1 / 6.7,
+                                                                        staff_work_shift=3, c_jail=1, c_0=750,
+                                                                        init_community_infections=35,
+                                                                        init_detention_infections=3,arrest_rate=.0001,
+                                                                        alos=.033),
+                  'ICE KARNES COUNTY RESIDENTIAL CENTER': None,
+                  'ICE SOUTH TEXAS DETENTION COMPLEX': model.ModelParams(county_pop=20306, staff_pop=200,
+                                                                        detention_pop=650, beta=2.43,sigma=0.5,
+                                                                        gamma=1 / 10, gamma_ei=1 / 6.7,
+                                                                        staff_work_shift=3, c_jail=3, c_0=500,
+                                                                        init_community_infections=244,
+                                                                        init_detention_infections=30,arrest_rate=.0001,
+                                                                        alos=.033),
+                   'ICE SOUTH TEXAS FAMILY RESIDENTIAL CENTER':None, 'ICE WINN CORRECTIONAL CENTER': None}
+    y_lim_dict = {'ICE ADAMS COUNTY DETENTION CENTER': [[10**(-3), 10**(-2), 10**(-1)], ['10', '100', '1,000'], 10**(-3), 10**(-1)],
+                  'ICE SOUTH TEXAS DETENTION COMPLEX': [[10**(-3), 10**(-2), 10**(-1)], ['10', '100', '1,000'], 10**(-3)-.0001, 10**(-1)+.1]}
+
+    ice_facilities = select_ice_facilities(load_ucla_data())
+    covid_df = load_nyt_data()
+    facility_name = 'ICE SOUTH TEXAS DETENTION COMPLEX' #Do this for each one with rising cases
+    # facility_name = 'ICE ADAMS COUNTY DETENTION CENTER'
+    model.example_model(model_params=param_dict[facility_name], num_days=80, normalize=True, same_plot=True,
+                        show_recovered=False, show_susceptible=False)
+    df = ice_facilities[ice_facilities['Name'].str.contains(f'{facility_name}', na=False)]
+    county = covid_df[covid_df['county'] == county_dict[facility_name]]
+    county = county[county['state'] == state_dict[facility_name]]
+    county_pop = pop_dict[facility_name]
+
+    county_name = county.head(1)['county'].values[0]
+    start_date = datetime.datetime.strptime('02-01-2021', '%m-%d-%Y')
+    start_date = pd.to_datetime(start_date)
+    end_date = datetime.datetime.strptime('05-01-2021', '%m-%d-%Y')
+    end_date = pd.to_datetime(end_date)
+    df['Date'] = pd.to_datetime(df['Date'])
+    facility_mask = (df['Date'] > start_date) & (df['Date'] <= end_date)
+    facility = df.loc[facility_mask]
+
+    county['date'] = pd.to_datetime(county['date'])
+    county_mask = (county['date'] > start_date) & (county['date'] <= end_date)
+    county = county.loc[county_mask]
+
+    joined_df = county.join(facility.set_index('Date'), on='date', how='left')
+    # TODO the thing that would make this make more sense as well is to change the ODE's to bring in new population over time
+    # say 3 people per day, and 3 out, to general pop
+    plt.figure('compare case rates')
+    avg_difference_in_rates = np.average(joined_df['Residents.Active'].fillna(method='ffill')[1:] / facility.head(1)['Population.Feb20'].values[0] * 10000)/np.average(joined_df['cases'].diff(10).fillna(method='bfill') / county_pop * 10000)
+    plt.ylabel('Active case rate per 10,000 people')
+    plt.title(f'Active case rates for {facility_name} and surrounding county\n'
+              f'Avg rate of detention facility is {np.round(avg_difference_in_rates,1)}X higher than county rate')
+    plt.plot(joined_df['date'],
+             joined_df['Residents.Active'].fillna(method='ffill') / facility.head(1)['Population.Feb20'].values[0],
+             label=f'{facility_name} Detainee Rate', color=more_colors[0])
+    plt.plot(joined_df['date'], joined_df['cases'].diff(10).fillna(method='bfill') / county_pop,
+             label='County rate', color=more_colors[1])
+    plt.xticks(rotation=35)
+    # plt.ylim(1, 100000)
+    # plt.semilogy()
+    # plt.yticks([10, 100, 1000, 10000], labels=['10', '100', '1000', '10000'])
+
+    # plt.show()
+
+    plt.figure('model')
+    # TODO: need to fix the y axes labels with percentage vs proportion vs log etc.
+    plt.scatter(np.arange(82), moving_average(np.array(joined_df['Residents.Active'].fillna(method='ffill')[1:])) / facility.head(1)['Population.Feb20'].values[0],
+                label='Active cases Detainees', s=1, color=scatter_color)
+    plt.scatter(np.arange(83), moving_average(np.array(joined_df['cases'].diff(10).fillna(method='bfill'))) / county_pop,
+                label='Estimated active cases County', s=1, color=base_color)
+    plt.legend(loc='upper left')
+    # plt.ylim([0, 0.15])
+    plt.semilogy()
+    plt.yticks(y_lim_dict[facility_name][0], y_lim_dict[facility_name][1])
+    plt.ylim([y_lim_dict[facility_name][2], y_lim_dict[facility_name][3]])
+    plt.xlabel(f'Days past {start_date}')
+    # plt.xticks(np.arange(0, 80, 10), joined_df['date'][0, 10, 20, 30, 40, 50, 60, 70])
+    # plt.ylim([.0005, .15])
+    print(joined_df['Residents.Active'].head(5))
+    plt.show()
+
 
 if __name__ == '__main__':
     ### Example:
-    local_case_data(scrape_new=False)
-    ca_ice_cross_correlation()
+    # local_case_data(scrape_new=False)
+    # ca_ice_cross_correlation()
+    model_with_data()
+    # new_outbreak_correlation()
 
 ## Notes
 ## To do: for Exploratory section:
